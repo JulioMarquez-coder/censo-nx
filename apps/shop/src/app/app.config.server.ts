@@ -1,10 +1,14 @@
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering, withRoutes } from '@angular/ssr';
-import { appConfig } from './app.config';
-import { serverRoutes } from './app.routes.server';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideServerRendering } from '@angular/platform-server';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { appRoutes } from './app.routes';
 
-const serverConfig: ApplicationConfig = {
-  providers: [provideServerRendering(withRoutes(serverRoutes))],
+export const appConfigServer: ApplicationConfig = {
+  providers: [
+    provideServerRendering(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(appRoutes),
+    provideHttpClient(withFetch()),
+  ],
 };
-
-export const config = mergeApplicationConfig(appConfig, serverConfig);

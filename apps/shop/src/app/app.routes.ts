@@ -1,25 +1,12 @@
 import { Route } from '@angular/router';
 
 export const appRoutes: Route[] = [
-  {
-    path: '',
-    redirectTo: 'products',
-    pathMatch: 'full',
-  },
+  { path: '', redirectTo: 'products', pathMatch: 'full' },
+
   {
     path: 'products',
-    loadChildren: () =>
-      import('@org/shop/feature-products').then(m => m.featureProductsRoutes),
+    loadComponent: () => import('./estados').then((m) => m.EstadosComponent),
   },
-  {
-    path: 'products',
-    loadChildren: () =>
-      import('@org/shop/feature-product-detail').then(
-        m => m.featureProductDetailRoutes
-      ),
-  },
-  {
-    path: '**',
-    redirectTo: 'products',
-  },
+
+  { path: '**', redirectTo: 'products' },
 ];

@@ -1,13 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { EstadosComponent } from './estados';
 
 @Component({
-  imports: [RouterModule],
   selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrl: './app.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [EstadosComponent],
+  template: `<app-estados></app-estados>`,
 })
-export class App {
-  protected title = 'Nx Shop Demo';
-}
+export class AppComponent {}

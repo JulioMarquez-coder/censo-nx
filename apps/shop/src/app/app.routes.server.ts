@@ -1,12 +1,3 @@
-import { RenderMode, ServerRoute } from '@angular/ssr';
+import { appRoutes } from './app.routes';
 
-export const serverRoutes: ServerRoute[] = [
-  {
-    path: 'products/:id',
-    renderMode: RenderMode.Server,
-  },
-  {
-    path: '**',
-    renderMode: RenderMode.Prerender,
-  },
-];
+export const appRoutesServer = appRoutes;
