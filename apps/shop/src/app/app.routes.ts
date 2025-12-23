@@ -5,7 +5,7 @@ export const appRoutes: Route[] = [
 
   {
     path: 'products',
-    loadComponent: () => import('./estados').then((m) => m.EstadosComponent),
+    loadComponent: () => import('./pages/estados/estados').then((m) => m.EstadosComponent),
   },
 
   { path: '**', redirectTo: 'products' },

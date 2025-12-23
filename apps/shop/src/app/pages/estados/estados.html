@@ -1,0 +1,60 @@
+<h1 class="text-2xl font-bold mb-4">Población de los estados (Top 10)</h1>
+
+<!-- Mensajes de carga / error -->
+@if (loading) {
+  <div>Cargando estados...</div>
+} @else if (errorMsg) {
+  <div class="text-red-600">{{ errorMsg }}</div>
+} @else {
+
+  <!-- Gráfica donut -->
+  <div class="max-w-xl mx-auto mb-6">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [labels]="chartOptions.labels"
+      [responsive]="chartOptions.responsive"
+    ></apx-chart>
+  </div>
+
+  <!-- Selector de estado -->
+  <label class="block mb-2">
+    Escoge un estado:
+    <select class="border px-2 py-1 ml-2" [(ngModel)]="selectedName">
+      <option value="">-- Selecciona --</option>
+
+      @for (e of estados; track e.name) {
+        <option [value]="e.name">{{ e.name }}</option>
+      }
+    </select>
+  </label>
+
+  <!-- Info del estado seleccionado -->
+  @if (selectedState) {
+    <p>
+      Población de {{ selectedState.name }}:
+      <strong>{{ selectedState.population | number: '1.0-0' }}</strong>
+    </p>
+  }
+
+  <!-- Tabla de todos los estados -->
+  <table class="mt-4 w-full border-collapse text-sm">
+    <thead>
+      <tr>
+        <th class="border px-2 py-1 text-left">Estado</th>
+        <th class="border px-2 py-1 text-right">Población</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (e of estados; track e.name) {
+        <tr>
+          <td class="border px-2 py-1">{{ e.name }}</td>
+          <td class="border px-2 py-1 text-right">
+            {{ e.population | number: '1.0-0' }}
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { EstadosComponent } from './estados';
+import { RouterOutlet, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [EstadosComponent],
-  template: `<app-estados></app-estados>`,
+  imports: [RouterOutlet, RouterLink],
+  templateUrl: './app.html',
+  styleUrls: ['./app.css'],
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'Censo de Estados';
+}
