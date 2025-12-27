@@ -1,0 +1,28 @@
+<!-- Tabla de todos los estados -->
+  <h2 class="text-xl font-bold mt-10 mb-4">Tabla completa de estados</h2>
+
+  <div class="overflow-x-auto">
+    <table class="w-full border border-gray-400 text-sm">
+      <thead class="bg-gray-300">
+        <tr>
+          <th class="border border-gray-400 px-3 py-2 text-left">Estado</th>
+          <th class="border border-gray-400 px-3 py-2 text-right">
+            Población
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (e of estados; track e.name) {
+          <tr class="odd:bg-white even:bg-gray-100 hover:bg-gray-200">
+            <td class="border border-gray-400 px-3 py-2">
+              {{ e.name }}
+            </td>
+            <td class="border border-gray-400 px-3 py-2 text-right">
+              {{ e.population | number: '1.0-0' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>

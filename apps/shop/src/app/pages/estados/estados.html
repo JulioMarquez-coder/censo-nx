@@ -8,7 +8,8 @@
 } @else {
 
   <!-- Gráfica donut -->
-  <div class="max-w-xl mx-auto mb-6">
+  <div class="w-full flex justify-center items-center mt-10 mb-10">
+  <div class="flex justify-center items-center" style="width: 100%; max-width: 600px;">
     <apx-chart
       [series]="chartOptions.series"
       [chart]="chartOptions.chart"
@@ -16,6 +17,9 @@
       [responsive]="chartOptions.responsive"
     ></apx-chart>
   </div>
+</div>
+
+
 
   <!-- Selector de estado -->
   <label class="block mb-2">
@@ -37,24 +41,5 @@
     </p>
   }
 
-  <!-- Tabla de todos los estados -->
-  <table class="mt-4 w-full border-collapse text-sm">
-    <thead>
-      <tr>
-        <th class="border px-2 py-1 text-left">Estado</th>
-        <th class="border px-2 py-1 text-right">Población</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      @for (e of estados; track e.name) {
-        <tr>
-          <td class="border px-2 py-1">{{ e.name }}</td>
-          <td class="border px-2 py-1 text-right">
-            {{ e.population | number: '1.0-0' }}
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  
 }

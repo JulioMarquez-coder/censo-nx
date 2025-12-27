@@ -1,19 +1,36 @@
-<header class="app-header">
-  <div class="container">
-    <h1>{{ title }}</h1>
-    <nav>
-      <a routerLink="/products" routerLinkActive="active">Products</a>
+<header class="w-full bg-blue-700 text-white py-4 shadow">
+  <div class="max-w-5xl mx-auto flex justify-between items-center px-4">
+    <h1 class="text-2xl font-bold">Proyecto Censo</h1>
+
+    <nav class="flex gap-4">
+      <!-- Mostrar "Inicio" en todas MENOS la página de inicio -->
+      @if (!isHomePage) {
+        <a routerLink="/" class="text-white hover:text-gray-300">
+          Inicio
+        </a>
+      }
+
+      <!-- Solo en la página de GRÁFICAS -->
+      @if (isEstadosPage) {
+        <a routerLink="/tabla-estados" class="text-white hover:text-gray-300">
+          Tabla de estados
+        </a>
+      }
+
+      <!-- Solo en la página de TABLA -->
+      @if (isTablaPage) {
+        <a routerLink="/estados" class="text-white hover:text-gray-300">
+          Gráfica de estados
+        </a>
+      }
     </nav>
   </div>
 </header>
 
-<main class="app-main">
+<main class="min-h-screen bg-gray-100">
   <router-outlet></router-outlet>
 </main>
 
-<footer class="app-footer">
-  <div class="container">
-    <p>© 2025 Nx Shop Demo - Showcasing Nx Monorepo Features</p>
-    <p>Frontend (Angular) + Backend (Express) + Shared Libraries</p>
-  </div>
+<footer class="w-full bg-gray-900 text-gray-300 text-center py-4 text-sm">
+  © 2025 Proyecto Censo — Todos los derechos reservados.
 </footer>

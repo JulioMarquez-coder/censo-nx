@@ -37,6 +37,8 @@ export class EstadosComponent implements OnInit {
     series: [],
     chart: {
       type: 'donut',
+      width: 500,
+      height: 500,
     },
     labels: [],
     responsive: [
