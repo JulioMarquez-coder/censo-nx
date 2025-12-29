@@ -23,7 +23,7 @@ export class TablaEstadosComponent implements OnInit {
   loading = true;
   error = '';
 
-  ordenActual: Orden = 'poblacion-desc'; // default
+  ordenActual: Orden = 'alfabetico-asc'; // default
 
   ngOnInit(): void {
     this.censo.getEstados().subscribe({
