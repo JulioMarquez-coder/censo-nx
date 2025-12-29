@@ -1,11 +1,11 @@
 <div class="flex flex-wrap justify-center gap-2 mb-4">
   <button
     (click)="cambiarOrden('poblacion-desc')"
-    class="px-3 py-1 rounded text-white"
+    class="px-3 py-1 rounded text-white transition-all"
     [ngClass]="
       ordenActual === 'poblacion-desc'
         ? 'bg-yellow-400 text-black'
-        : 'bg-green-600 hover:bg-gray-500'
+        : 'bg-red-600 hover:bg-gray-500'
     "
   >
     Mayor a menor
@@ -13,7 +13,7 @@
 
   <button
     (click)="cambiarOrden('poblacion-asc')"
-    class="px-3 py-1 rounded text-white"
+    class="px-3 py-1 rounded text-white transition-all"
     [ngClass]="
       ordenActual === 'poblacion-asc'
         ? 'bg-yellow-400 text-black'
@@ -25,11 +25,11 @@
 
   <button
     (click)="cambiarOrden('alfabetico-asc')"
-    class="px-3 py-1 rounded text-white"
+    class="px-3 py-1 rounded text-white transition-all"
     [ngClass]="
       ordenActual === 'alfabetico-asc'
         ? 'bg-yellow-400 text-black'
-        : 'bg-green-600 hover:bg-gray-500'
+        : 'bg-red-600 hover:bg-gray-500'
     "
   >
     A–Z
@@ -37,11 +37,11 @@
 
   <button
     (click)="cambiarOrden('alfabetico-desc')"
-    class="px-3 py-1 rounded text-white"
+    class="px-3 py-1 rounded text-white transition-all"
     [ngClass]="
       ordenActual === 'alfabetico-desc'
         ? 'bg-yellow-400 text-black'
-        : 'bg-red-600 hover:bg-grey-500'
+        : 'bg-red-600 hover:bg-gray-500'
     "
   >
     Z–A
