@@ -1,0 +1,19 @@
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent;
+}
+
+/* Chrome/Edge */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
