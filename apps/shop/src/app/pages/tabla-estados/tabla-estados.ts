@@ -26,7 +26,11 @@ export class TablaEstadosComponent implements OnInit {
 
   ordenActual: Orden = 'alfabetico-asc'; // default
 
-  busqueda = ''; // ADD
+  busqueda = ''; // buscador
+
+  // ✅ NUEVO: lista de estados seleccionados para comparar
+  compareList: EstadoCenso[] = [];
+  maxCompare = 3;
 
   ngOnInit(): void {
     this.censo.getEstados().subscribe({
@@ -43,6 +47,36 @@ export class TablaEstadosComponent implements OnInit {
 
   cambiarOrden(orden: Orden) {
     this.ordenActual = orden;
+  }
+
+  // ✅ NUEVO: alternar selección de un estado
+  toggleCompare(estado: EstadoCenso) {
+    const idx = this.compareList.findIndex((e) => e.name === estado.name);
+
+    // Si ya estaba seleccionado, lo quitamos
+    if (idx >= 0) {
+      this.compareList.splice(idx, 1);
+      return;
+    }
+
+    // Si no está y aún no llegamos al máximo, lo añadimos
+    if (this.compareList.length < this.maxCompare) {
+      this.compareList.push(estado);
+    } else {
+      // Aquí podrías mostrar un mensaje en la UI si quieres
+      // por ahora solo lo ignoramos si ya hay 3
+      console.warn('Máximo de estados para comparar alcanzado');
+    }
+  }
+
+  // ✅ NUEVO: saber si un estado ya está seleccionado
+  isInCompare(estado: EstadoCenso): boolean {
+    return this.compareList.some((e) => e.name === estado.name);
+  }
+
+  // ✅ NUEVO: limpiar el panel de comparación
+  clearCompare() {
+    this.compareList = [];
   }
 
   // FILTRA + ORDENA
@@ -71,4 +105,5 @@ export class TablaEstadosComponent implements OnInit {
           return 0;
       }
     });
-  }}
+  }
+}

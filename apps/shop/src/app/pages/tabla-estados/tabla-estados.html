@@ -1,5 +1,7 @@
 <!-- Tabla de todos los estados -->
-<h2 class="text-xl font-bold mt-10 mb-4 p-1 text-center">Tabla completa de estados</h2>
+<h2 class="text-xl font-bold mt-10 mb-4 p-1 text-center">
+  Tabla completa de estados
+</h2>
 
 <!--Buscador -->
 <div class="flex justify-center mb-3">
@@ -17,19 +19,28 @@
   </div>
 </div>
 
-<div
-  class="max-h-96 overflow-y-auto overflow-x-auto rounded-xl border border-gray-300 shadow-md bg-white m-3 mx-60 [scrollbar-gutter:stable]"
->
+
+
+
+<div class="max-h-96 overflow-y-auto overflow-x-auto rounded-xl border border-gray-300 shadow-md bg-white m-3 mx-auto w-[600px] [scrollbar-gutter:stable]">
+
   <table class="w-full border-separate border-spacing-0 text-sm">
     <thead class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors">
       <tr>
+        <!-- ✅ Nueva columna para checkbox -->
         <th
-          class="px-4 py-3 text-left sticky top-0 z-30 bg-gray-200 border-b-2 border-gray-400 uppercase tracking-wide text-xs font-semibold"
+          class="px-4 py-3 justify-center sticky top-0 z-30 bg-gray-200 border-b-2 border-gray-400 uppercase tracking-wide text-xs font-semibold"
+        >
+          Comparar
+        </th>
+
+        <th
+          class="px-4 py-3 justify-center sticky top-0 z-30 bg-gray-200 border-b-2 border-gray-400 uppercase tracking-wide text-xs font-semibold"
         >
           Estado
         </th>
         <th
-          class="px-4 py-3 text-right sticky top-0 z-30 bg-gray-200 border-b-2 border-gray-400 uppercase tracking-wide text-xs font-semibold"
+          class="px-4 py-3 justify-center sticky top-0 z-30 bg-gray-200 border-b-2 border-gray-400 uppercase tracking-wide text-xs font-semibold"
         >
           Población
         </th>
@@ -39,10 +50,20 @@
     <tbody>
       @for (e of estadosFiltradosOrdenados; track e.name) {
         <tr class="odd:bg-white even:bg-gray-100 hover:bg-gray-200">
-          <td class="border border-gray-400 px-3 py-2">
+          <!-- ✅ Checkbox para seleccionar el estado -->
+          <td class="border border-gray-400 px-3 py-2 text-center">
+            <input
+              type="checkbox"
+              [checked]="isInCompare(e)"
+              (change)="toggleCompare(e)"
+              class="h-4 w-4"
+            />
+          </td>
+
+          <td class="border border-gray-400 px-3 py-2 text-center">
             {{ e.name }}
           </td>
-          <td class="border border-gray-400 px-3 py-2 text-right">
+          <td class="border border-gray-400 px-3 py-2 text-center">
             {{ e.population | number: '1.0-0' }}
           </td>
         </tr>
@@ -50,6 +71,64 @@
     </tbody>
   </table>
 </div>
+
+
+<!-- ✅ Panel de comparación de estados -->
+@if (compareList.length > 0) {
+  <div
+    class="mx-60 mb-4 mt-2 rounded-xl border border-blue-300 bg-blue-50 p-4 shadow-sm"
+  >
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <h3 class="text-lg font-bold">Comparación de estados</h3>
+        <p class="text-sm text-gray-700">
+          Seleccionados:
+          <span class="font-semibold">{{ compareList.length }}</span> /
+          {{ maxCompare }}
+        </p>
+        @if (compareList.length < 2) {
+          <p class="text-xs text-gray-600">
+            Selecciona al menos <b>2 estados</b> en la tabla para una comparación
+            más útil.
+          </p>
+        }
+      </div>
+
+      <button
+        (click)="clearCompare()"
+        class="px-3 py-1 rounded-lg border border-blue-400 text-xs font-medium text-blue-800 hover:bg-blue-100"
+      >
+        Limpiar selección
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-separate border-spacing-0">
+        <thead>
+          <tr class="bg-blue-100">
+            <th class="px-3 py-2 text-left border-b border-blue-300">Estado</th>
+            <th class="px-3 py-2 text-right border-b border-blue-300">
+              Población
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (e of compareList; track e.name) {
+            <tr class="odd:bg-white even:bg-blue-50 hover:bg-blue-100">
+              <td class="px-3 py-2 font-semibold border-b border-blue-200">
+                {{ e.name }}
+              </td>
+              <td class="px-3 py-2 text-right border-b border-blue-200">
+                {{ e.population | number: '1.0-0' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
+
 
 <div class="flex flex-wrap justify-center gap-2 mb-4 p-2">
   <button
