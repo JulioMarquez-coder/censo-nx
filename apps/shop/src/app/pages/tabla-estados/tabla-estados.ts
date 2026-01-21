@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // ADD
 import { CensoService, EstadoCenso } from '../../services/censo.service';
 
 type Orden =
@@ -11,7 +12,7 @@ type Orden =
 @Component({
   selector: 'app-tabla-estados',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], // ADD
   templateUrl: './tabla-estados.html',
   styleUrls: ['./tabla-estados.css'],
 })
@@ -24,6 +25,8 @@ export class TablaEstadosComponent implements OnInit {
   error = '';
 
   ordenActual: Orden = 'alfabetico-asc'; // default
+
+  busqueda = ''; // ADD
 
   ngOnInit(): void {
     this.censo.getEstados().subscribe({
@@ -42,8 +45,15 @@ export class TablaEstadosComponent implements OnInit {
     this.ordenActual = orden;
   }
 
-  get estadosOrdenados(): EstadoCenso[] {
-    return [...this.estados].sort((a, b) => {
+  // FILTRA + ORDENA
+  get estadosFiltradosOrdenados(): EstadoCenso[] {
+    const q = this.busqueda.trim().toLowerCase();
+
+    const filtrados = q
+      ? this.estados.filter((e) => e.name.toLowerCase().includes(q))
+      : this.estados;
+
+    return [...filtrados].sort((a, b) => {
       switch (this.ordenActual) {
         case 'poblacion-desc':
           return b.population - a.population;
@@ -61,6 +71,4 @@ export class TablaEstadosComponent implements OnInit {
           return 0;
       }
     });
-  }
-}
-
+  }}
