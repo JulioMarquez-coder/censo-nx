@@ -1,7 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // ADD
+import { FormsModule } from '@angular/forms';
 import { CensoService, EstadoCenso } from '../../services/censo.service';
+
+// 📊 IMPORTS DE APEXCHARTS
+import {
+  NgApexchartsModule,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+} from 'ng-apexcharts';
 
 type Orden =
   | 'poblacion-desc'
@@ -9,14 +17,20 @@ type Orden =
   | 'alfabetico-asc'
   | 'alfabetico-desc';
 
+// 📊 TIPO PARA LAS OPCIONES DE LA GRÁFICA
+export type EstadosCompareChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+};
+
 @Component({
   selector: 'app-tabla-estados',
   standalone: true,
-  imports: [CommonModule, FormsModule], // ADD
+  imports: [CommonModule, FormsModule, NgApexchartsModule],
   templateUrl: './tabla-estados.html',
   styleUrls: ['./tabla-estados.css'],
 })
-
 export class TablaEstadosComponent implements OnInit {
   private censo = inject(CensoService);
 
@@ -25,12 +39,28 @@ export class TablaEstadosComponent implements OnInit {
   error = '';
 
   ordenActual: Orden = 'alfabetico-asc'; // default
-
   busqueda = ''; // buscador
 
-  // ✅ NUEVO: lista de estados seleccionados para comparar
+  // lista de estados seleccionados para comparar
   compareList: EstadoCenso[] = [];
   maxCompare = 3;
+
+  // 📊 Opciones iniciales de la gráfica de comparación
+  compareChartOptions: EstadosCompareChartOptions = {
+    series: [
+      {
+        name: 'Población',
+        data: [],
+      },
+    ],
+    chart: {
+      type: 'bar',
+      height: 300,
+    },
+    xaxis: {
+      categories: [],
+    },
+  };
 
   ngOnInit(): void {
     this.censo.getEstados().subscribe({
@@ -49,34 +79,57 @@ export class TablaEstadosComponent implements OnInit {
     this.ordenActual = orden;
   }
 
-  // ✅ NUEVO: alternar selección de un estado
+  onOrdenChange(valor: string) {
+  this.ordenActual = valor as Orden;
+}
+
+
+  // alternar selección de un estado
   toggleCompare(estado: EstadoCenso) {
     const idx = this.compareList.findIndex((e) => e.name === estado.name);
 
-    // Si ya estaba seleccionado, lo quitamos
     if (idx >= 0) {
+      // si ya estaba, lo quitamos
       this.compareList.splice(idx, 1);
-      return;
-    }
-
-    // Si no está y aún no llegamos al máximo, lo añadimos
-    if (this.compareList.length < this.maxCompare) {
+    } else if (this.compareList.length < this.maxCompare) {
+      // si no está y aún no llegamos al máximo, lo añadimos
       this.compareList.push(estado);
     } else {
-      // Aquí podrías mostrar un mensaje en la UI si quieres
-      // por ahora solo lo ignoramos si ya hay 3
       console.warn('Máximo de estados para comparar alcanzado');
     }
+
+    this.updateChartFromCompareList();
   }
 
-  // ✅ NUEVO: saber si un estado ya está seleccionado
+  // saber si un estado ya está seleccionado
   isInCompare(estado: EstadoCenso): boolean {
     return this.compareList.some((e) => e.name === estado.name);
   }
 
-  // ✅ NUEVO: limpiar el panel de comparación
+  // limpiar el panel de comparación
   clearCompare() {
     this.compareList = [];
+    this.updateChartFromCompareList();
+  }
+
+  // 🔄 actualizar gráfica según compareList
+  private updateChartFromCompareList() {
+    const labels = this.compareList.map((e) => e.name);
+    const values = this.compareList.map((e) => e.population);
+
+    this.compareChartOptions = {
+      ...this.compareChartOptions,
+      series: [
+        {
+          name: 'Población',
+          data: values,
+        },
+      ],
+      xaxis: {
+        ...this.compareChartOptions.xaxis,
+        categories: labels,
+      },
+    };
   }
 
   // FILTRA + ORDENA

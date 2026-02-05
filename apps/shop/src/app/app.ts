@@ -20,18 +20,23 @@ export class AppComponent {
   // Home = cualquier ruta que NO sea /estados ni /tabla-estados
   get isHomePage(): boolean {
     const url = this.cleanUrl;
-    return !url.includes('/estados') && !url.includes('/tabla-estados');
+    return !url.includes('/estados') && !url.includes('/tabla-estados') && !url.includes('/puerto-rico');
   }
 
   // Página de gráfica
   get isEstadosPage(): boolean {
     const url = this.cleanUrl;
-    return url.includes('/estados') && !url.includes('/tabla-estados');
+    return url.includes('/estados') && !url.includes('/tabla-estados') && !url.includes('/puerto-rico');
   }
 
   // Página de tabla
   get isTablaPage(): boolean {
     const url = this.cleanUrl;
     return url.includes('/tabla-estados');
+  }
+// Página de tabla
+  get isPuertoRicoPage(): boolean {
+    const url = this.cleanUrl;
+    return url.includes('/puerto-rico');
   }
 }

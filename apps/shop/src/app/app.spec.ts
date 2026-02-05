@@ -1,20 +1,20 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { App } from './app';
+import { AppComponent } from './app';
 import { appRoutes } from './app.routes';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
 describe('App', () => {
-  let component: App;
-  let fixture: ComponentFixture<App>;
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [AppComponent],
       providers: [provideRouter(appRoutes)],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(App);
+    fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -52,7 +52,7 @@ describe('App', () => {
   });
 
   it('should apply change detection strategy OnPush', () => {
-    const metadata = (App as unknown as { ɵcmp: { onPush: boolean } })['ɵcmp'];
+    const metadata = (AppComponent as unknown as { ɵcmp: { onPush: boolean } })['ɵcmp'];
     expect(metadata.onPush).toBeTruthy();
   });
 });

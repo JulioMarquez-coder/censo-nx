@@ -19,15 +19,32 @@
   </div>
 </div>
 
+<!-- Menú pequeño de orden -->
+<div class="flex justify-end max-w-xl mx-auto mb-3 px-3">
+  <label class="flex items-center gap-2 text-sm text-gray-700">
+    <span class="font-medium">Ordenar por:</span>
+    <select
+      [ngModel]="ordenActual"
+      (ngModelChange)="onOrdenChange($event)"
+      class="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+    >
+      <option value="alfabetico-asc">A–Z</option>
+      <option value="alfabetico-desc">Z–A</option>
+      <option value="poblacion-desc">mayor a menor</option>
+      <option value="poblacion-asc">menor a mayor</option>
+    </select>
+  </label>
+</div>
 
-
-
-<div class="max-h-96 overflow-y-auto overflow-x-auto rounded-xl border border-gray-300 shadow-md bg-white m-3 mx-auto w-[600px] [scrollbar-gutter:stable]">
-
+<div
+  class="max-h-96 overflow-y-auto overflow-x-auto rounded-xl border border-gray-300 shadow-md bg-white m-3 mx-auto w-[600px] [scrollbar-gutter:stable]"
+>
   <table class="w-full border-separate border-spacing-0 text-sm">
-    <thead class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors">
+    <thead
+      class="odd:bg-white even:bg-gray-50 hover:bg-blue-50 transition-colors"
+    >
       <tr>
-        <!-- ✅ Nueva columna para checkbox -->
+        <!-- columna para checkbox -->
         <th
           class="px-4 py-3 justify-center sticky top-0 z-30 bg-gray-200 border-b-2 border-gray-400 uppercase tracking-wide text-xs font-semibold"
         >
@@ -72,110 +89,86 @@
   </table>
 </div>
 
-
-<!-- ✅ Panel de comparación de estados -->
+<!-- ✅ Panel de comparación + gráfica -->
 @if (compareList.length > 0) {
-  <div
-    class="mx-60 mb-4 mt-2 rounded-xl border border-blue-300 bg-blue-50 p-4 shadow-sm"
-  >
-    <div class="flex items-center justify-between mb-3">
-      <div>
-        <h3 class="text-lg font-bold">Comparación de estados</h3>
-        <p class="text-sm text-gray-700">
-          Seleccionados:
-          <span class="font-semibold">{{ compareList.length }}</span> /
-          {{ maxCompare }}
-        </p>
-        @if (compareList.length < 2) {
-          <p class="text-xs text-gray-600">
-            Selecciona al menos <b>2 estados</b> en la tabla para una comparación
-            más útil.
+  <div class="mx-4 mb-4 mt-2 flex flex-col lg:flex-row gap-4">
+    <!-- Panel de tabla de comparación -->
+    <div
+      class="flex-1 rounded-xl border border-blue-300 bg-blue-50 p-4 shadow-sm"
+    >
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h3 class="text-lg font-bold">Comparación de estados</h3>
+          <p class="text-sm text-gray-700">
+            Seleccionados:
+            <span class="font-semibold">{{ compareList.length }}</span> /
+            {{ maxCompare }}
           </p>
-        }
+          @if (compareList.length < 2) {
+            <p class="text-xs text-gray-600">
+              Selecciona al menos <b>2 estados</b> en la tabla para una
+              comparación más útil.
+            </p>
+          }
+        </div>
+
+        <button
+          (click)="clearCompare()"
+          class="px-3 py-1 rounded-lg border border-blue-400 text-xs font-medium text-blue-800 hover:bg-blue-100"
+        >
+          Limpiar selección
+        </button>
       </div>
 
-      <button
-        (click)="clearCompare()"
-        class="px-3 py-1 rounded-lg border border-blue-400 text-xs font-medium text-blue-800 hover:bg-blue-100"
-      >
-        Limpiar selección
-      </button>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-separate border-spacing-0">
+          <thead>
+            <tr class="bg-blue-100">
+              <th class="px-3 py-2 text-left border-b border-blue-300">
+                Estado
+              </th>
+              <th class="px-3 py-2 text-right border-b border-blue-300">
+                Población
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (e of compareList; track e.name) {
+              <tr class="odd:bg-white even:bg-blue-50 hover:bg-blue-100">
+                <td class="px-3 py-2 font-semibold border-b border-blue-200">
+                  {{ e.name }}
+                </td>
+                <td class="px-3 py-2 text-right border-b border-blue-200">
+                  {{ e.population | number: '1.0-0' }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm border-separate border-spacing-0">
-        <thead>
-          <tr class="bg-blue-100">
-            <th class="px-3 py-2 text-left border-b border-blue-300">Estado</th>
-            <th class="px-3 py-2 text-right border-b border-blue-300">
-              Población
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (e of compareList; track e.name) {
-            <tr class="odd:bg-white even:bg-blue-50 hover:bg-blue-100">
-              <td class="px-3 py-2 font-semibold border-b border-blue-200">
-                {{ e.name }}
-              </td>
-              <td class="px-3 py-2 text-right border-b border-blue-200">
-                {{ e.population | number: '1.0-0' }}
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <!-- Gráfica de comparación -->
+    <div
+      class="flex-1 min-w-[280px] rounded-xl border border-purple-300 bg-white p-4 shadow-sm"
+    >
+      <h3 class="text-lg font-bold mb-2 text-purple-800">
+        Gráfica de población
+      </h3>
+      <p class="text-xs text-gray-600 mb-2">
+        Muestra la población de los estados seleccionados.
+      </p>
+
+      <div class="h-64">
+        <apx-chart
+          [series]="compareChartOptions.series"
+          [chart]="compareChartOptions.chart"
+          [xaxis]="compareChartOptions.xaxis"
+        ></apx-chart>
+      </div>
     </div>
   </div>
 }
 
 
-<div class="flex flex-wrap justify-center gap-2 mb-4 p-2">
-  <button
-    (click)="cambiarOrden('alfabetico-asc')"
-    class="px-3 py-1 rounded text-white transition-all"
-    [ngClass]="
-      ordenActual === 'alfabetico-asc'
-        ? 'bg-green-400 text-black'
-        : 'bg-red-600 hover:bg-gray-500'
-    "
-  >
-    A–Z
-  </button>
 
-  <button
-    (click)="cambiarOrden('alfabetico-desc')"
-    class="px-3 py-1 rounded text-white transition-all"
-    [ngClass]="
-      ordenActual === 'alfabetico-desc'
-        ? 'bg-green-400 text-black'
-        : 'bg-red-600 hover:bg-gray-500'
-    "
-  >
-    Z–A
-  </button>
-
-  <button
-    (click)="cambiarOrden('poblacion-desc')"
-    class="px-3 py-1 rounded text-white transition-all"
-    [ngClass]="
-      ordenActual === 'poblacion-desc'
-        ? 'bg-green-400 text-black'
-        : 'bg-red-600 hover:bg-gray-500'
-    "
-  >
-    Mayor a menor
-  </button>
-
-  <button
-    (click)="cambiarOrden('poblacion-asc')"
-    class="px-3 py-1 rounded text-white transition-all"
-    [ngClass]="
-      ordenActual === 'poblacion-asc'
-        ? 'bg-green-400 text-black'
-        : 'bg-red-600 hover:bg-gray-500'
-    "
-  >
-    Menor a mayor
-  </button>
-</div>

@@ -23,7 +23,15 @@
           Gráfica de estados
         </a>
       }
-    </nav>
+       
+       <!-- Solo en la página de PR -->
+      @if (isTablaPage) {
+        <a routerLink="/puerto-rico" class="text-white hover:text-gray-300">
+          Puerto Rico
+        </a>
+      }
+</nav>
+    
   </div>
 </header>
 

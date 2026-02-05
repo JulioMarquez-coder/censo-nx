@@ -17,6 +17,12 @@ export const appRoutes: Route[] = [
       import('./pages/tabla-estados/tabla-estados').then((m) => m.TablaEstadosComponent),
     
     },
+    {
+    path: 'puerto-rico',
+    loadComponent: () =>
+      import('./pages/puerto-rico/puerto-rico').then((m) => m.PuertoRicoComponent),
+    
+    },
   {
     path: '**',
     redirectTo: '',
