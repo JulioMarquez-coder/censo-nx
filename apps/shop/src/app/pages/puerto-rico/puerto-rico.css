@@ -1,0 +1,77 @@
+.map-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.map-container svg {
+  width: 100%;
+  height: auto;
+  transform: scale(1.2); /* ⬅️ prueba 1.1, 1.2, 1.3 */
+  transform-origin: center;
+}
+
+.map-container svg path {
+  stroke: #374151;
+  cursor: pointer;
+  transition: fill 0.15s ease;
+}
+
+.map-container svg path:hover {
+  fill: #f59e0b !important; /* amarillo en hover */
+}
+
+.tooltip {
+  position: absolute;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+.legend {
+  display: grid;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 0.875rem; /* texto un poco pequeño */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid #9ca3af; /* borde gris */
+}
+
+/* Los colores deben matchear getColorByPopulation */
+
+.legend-color-very-high {
+  background-color: #1e3a8a; /* >150k */
+}
+
+.legend-color-high {
+  background-color: #2563eb; /* 80k–150k */
+}
+
+.legend-color-medium {
+  background-color: #60a5fa; /* 40k–80k */
+}
+
+.legend-color-low {
+  background-color: #93c5fd; /* 20k–40k */
+}
+
+.legend-color-very-low {
+  background-color: #bfdbfe; /* <= 20k */
+}

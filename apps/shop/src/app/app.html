@@ -17,6 +17,13 @@
         </a>
       }
 
+      <!-- Solo en la página de GRÁFICAS -->
+      @if (isEstadosPage) {
+        <a routerLink="/puerto-rico" class="text-white hover:text-gray-300">
+          Puerto Rico
+        </a>
+      }
+
       <!-- Solo en la página de TABLA -->
       @if (isTablaPage) {
         <a routerLink="/estados" class="text-white hover:text-gray-300">
@@ -28,6 +35,18 @@
       @if (isTablaPage) {
         <a routerLink="/puerto-rico" class="text-white hover:text-gray-300">
           Puerto Rico
+        </a>
+      }
+
+       @if (isPuertoRicoPage) {
+        <a routerLink="/estados" class="text-white hover:text-gray-300">
+          Gráfica de Estados
+        </a>
+      }
+
+       @if (isPuertoRicoPage) {
+        <a routerLink="/tabla-estados" class="text-white hover:text-gray-300">
+          Tabla de Estados
         </a>
       }
 </nav>
