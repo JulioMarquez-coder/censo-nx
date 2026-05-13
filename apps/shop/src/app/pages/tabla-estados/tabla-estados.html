@@ -73,6 +73,7 @@
               type="checkbox"
               [checked]="isInCompare(e)"
               (change)="toggleCompare(e)"
+             [disabled]="compareList.length >= maxCompare && !isInCompare(e)"
               class="h-4 w-4"
             />
           </td>

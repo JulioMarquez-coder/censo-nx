@@ -11,8 +11,10 @@ export interface EstadoCenso {
 export class CensoService {
   private http = inject(HttpClient);
 
+private apiKey = 'c867c050ecec5b98c098cd52dc1d731b7a66c811';
+
   private url =
-    'https://api.census.gov/data/2023/acs/acs5?get=NAME,B01003_001E&for=state:*';
+    `https://api.census.gov/data/2023/acs/acs5?get=NAME,B01003_001E&for=state:*&key=${this.apiKey}`;
 
   getEstados(): Observable<EstadoCenso[]> {
     return this.http.get<string[][]>(this.url).pipe(

@@ -32,7 +32,11 @@ export class EstadosComponent implements OnInit {
   errorMsg = '';
   selectedName = '';
 
-  // Configuración inicial de la gráfica
+
+// Nombre: chartOptions
+// Proposito: Aquí se define el tipo de gráfica, sus dimenciones y la adaptación de los tamaños de las pantallas. 
+// Retorno: No devuelve ningun valor. 
+// Autor: Julio Marquez
   chartOptions: EstadosChartOptions = {
     series: [],
     chart: {
@@ -52,6 +56,10 @@ export class EstadosComponent implements OnInit {
     ],
   };
 
+  // Nombre: ngOnInt
+  // Proposito: Obtener los datos de población de los estados desde el servicio del censo al iniciar el componente. 
+  // Retorno: No devuelve ningun valor. 
+  // Autor: Julio Marquez
   ngOnInit(): void {
     this.censo
       .getEstados()

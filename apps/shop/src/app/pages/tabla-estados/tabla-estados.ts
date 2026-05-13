@@ -83,9 +83,13 @@ export class TablaEstadosComponent implements OnInit {
   this.ordenActual = valor as Orden;
 }
 
-
-  // alternar selección de un estado
+//Nombre: toggleCompare
+//Propósito: Permite agregar o eliminar un estado de la lista de comparación.
+// Parámetro: estado= representa el estado seleccionado por el usuario. 
+// Retorno: No devuelve ningun valor. 
+// Autor: Julio Marquez Torres. 
   toggleCompare(estado: EstadoCenso) {
+    // Busca la posición del estado dentro de la lista de comparación
     const idx = this.compareList.findIndex((e) => e.name === estado.name);
 
     if (idx >= 0) {
@@ -95,9 +99,10 @@ export class TablaEstadosComponent implements OnInit {
       // si no está y aún no llegamos al máximo, lo añadimos
       this.compareList.push(estado);
     } else {
+      // Si ya se alcanzó el máximo permitido, se muestra advertencia
       console.warn('Máximo de estados para comparar alcanzado');
     }
-
+    // Actualiza la gráfica con la selección actual
     this.updateChartFromCompareList();
   }
 

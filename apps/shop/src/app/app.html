@@ -1,63 +1,109 @@
+<!-- 
+  Encabezado principal de la aplicación.
+  Aquí se muestra el nombre del proyecto y el menú de navegación.
+  Se utiliza Tailwind CSS para el diseño visual del encabezado.
+-->
 <header class="w-full bg-blue-700 text-white py-4 shadow">
   <div class="max-w-5xl mx-auto flex justify-between items-center px-4">
+    
+    <!-- Título principal del proyecto -->
     <h1 class="text-2xl font-bold">Proyecto Censo</h1>
 
+    <!-- 
+      Menú de navegación dinámico.
+      Los enlaces se muestran dependiendo de la página actual
+      para evitar repetir la misma opción en la vista activa.
+    -->
     <nav class="flex gap-4">
-      <!-- Mostrar "Inicio" en todas MENOS la página de inicio -->
+      
+      <!-- 
+        Mostrar "Inicio" en todas las páginas excepto en la página principal.
+        Esto permite regresar fácilmente al inicio desde otras secciones.
+      -->
       @if (!isHomePage) {
         <a routerLink="/" class="text-white hover:text-gray-300">
           Inicio
         </a>
       }
 
-      <!-- Solo en la página de GRÁFICAS -->
+      <!-- 
+        En la página de gráficas se muestran enlaces hacia:
+         la tabla de estados
+         el mapa de Puerto Rico
+      -->
       @if (isEstadosPage) {
         <a routerLink="/tabla-estados" class="text-white hover:text-gray-300">
           Tabla de estados
         </a>
       }
 
-      <!-- Solo en la página de GRÁFICAS -->
+      
       @if (isEstadosPage) {
         <a routerLink="/puerto-rico" class="text-white hover:text-gray-300">
           Puerto Rico
         </a>
       }
 
-      <!-- Solo en la página de TABLA -->
+      <!-- 
+        En la página de tabla se muestran enlaces hacia:
+         la gráfica de estados
+         el mapa de Puerto Rico
+      -->
       @if (isTablaPage) {
         <a routerLink="/estados" class="text-white hover:text-gray-300">
           Gráfica de estados
         </a>
       }
        
-       <!-- Solo en la página de PR -->
+
       @if (isTablaPage) {
         <a routerLink="/puerto-rico" class="text-white hover:text-gray-300">
           Puerto Rico
         </a>
       }
 
-       @if (isPuertoRicoPage) {
+      <!-- 
+        En la página de Puerto Rico se muestran enlaces hacia:
+         la gráfica de estados
+         la tabla de estados
+      -->
+      @if (isPuertoRicoPage) {
         <a routerLink="/estados" class="text-white hover:text-gray-300">
           Gráfica de Estados
         </a>
       }
 
-       @if (isPuertoRicoPage) {
+      @if (isPuertoRicoPage) {
         <a routerLink="/tabla-estados" class="text-white hover:text-gray-300">
           Tabla de Estados
         </a>
       }
-</nav>
+    </nav>
     
   </div>
 </header>
 
+<!-- 
+  Contenido principal de la aplicación.
+  El router-outlet permite cargar dinámicamente
+  los diferentes componentes según la ruta seleccionada.
+-->
 <main class="min-h-screen bg-gray-100">
   <router-outlet></router-outlet>
 </main>
 
+<!-- 
+  Pie de página de la aplicación.
+  Se muestra información general del proyecto.
+-->
 <footer class="w-full bg-gray-900 text-gray-300 text-center py-4 text-sm">
   © 2025 Proyecto Censo — Todos los derechos reservados.
 </footer>
+
+
+
+
+
+
+
+
