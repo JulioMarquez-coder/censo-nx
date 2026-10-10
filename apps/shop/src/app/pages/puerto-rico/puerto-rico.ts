@@ -141,6 +141,9 @@ export class PuertoRicoComponent {
     this.hoveredMunicipio = id;
     this.hoveredMunicipioNombre = data.nombre;
     this.hoveredMunicipioPoblacion = data.poblacion;
+
+    this.onMouseMove(event); // para que en un toque también se posicione
+
   }
   // 🎨 Color según población
 getColorByPopulation(id: string | null): string {
@@ -168,10 +171,13 @@ getColorByPopulation(id: string | null): string {
 
   // 📍 Actualiza la posición del tooltip
   onMouseMove(event: MouseEvent) {
-    const container = event.currentTarget as HTMLElement;
-    const rect = container.getBoundingClientRect();
+  const container = (event.currentTarget as HTMLElement).getBoundingClientRect();
+  const x = event.clientX - container.left;
+  const y = event.clientY - container.top;
 
-    this.tooltipX = event.clientX - rect.left + 10;
-    this.tooltipY = event.clientY - rect.top + 10;
-  }
+  const tooltipWidth = 160;
+  this.tooltipX = Math.min(x + 12, container.width - tooltipWidth);
+  this.tooltipY = Math.max(y - 40, 0);
+}
+
 }
